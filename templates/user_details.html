@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.email }}'s Page{% endblock %}
+
+{% block body %}
+<h1>{{ user.email }}</h1>
+<ul>
+    <!-- rating is a Rating object -->
+    {% for rating in user.ratings %}
+        <li>
+            {{ rating.movie.title }}: <span id="score_{{ rating.rating_id }}>{{ rating.score }} 
+            <!-- score is directly on the Rating class -->
+            {% if session["user_email"] == user.email %}
+            <!-- This if statement is allowing you to only edit if you are logged in -->
+                <button class="edit-movie-rating" id="{{ rating.rating_id }}"> Edit rating </button>
+            {% endif %}
+        </li>
+    {% endfor %}
+    <!-- we can just pass in the magic attribute for ratings from model.py -->
+</ul>
+
+<script src="/static/js/updateRatings.js"></script>
+{% endblock %}
